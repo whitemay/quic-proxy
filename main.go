@@ -50,12 +50,12 @@ func main() {
 	// 创建一个基本的TLS配置
 	tlsConfig := &tls.Config{
 		Certificates: []tls.Certificate{cert},
-		NextProtos:   []string{"quic-echo-example"},
+		NextProtos:   []string{"h3"}, // 同时支持HTTP/3和QUIC
 	}
 
 	// 创建QUIC监听器配置
 	quicConfig := &quic.Config{
-		MaxIdleTimeout: 30 * time.Minute, // 设置会话空闲超时时间为30分钟
+		MaxIdleTimeout: 30 * time.Minute,
 	}
 
 	// 创建QUIC监听器
@@ -69,11 +69,11 @@ func main() {
 
 	// 接受QUIC会话并处理
 	for {
-		session, err := listener.Accept(context.Background())
+		connection, err := listener.Accept(context.Background())
 		if err != nil {
 			log.Printf("接受QUIC会话时出错: %s\n", err)
 			continue
 		}
-		go handleQUICSession(session, tcpAddrWithPort)
+		go handleQUICSession(connection, tcpAddrWithPort)
 	}
 }
