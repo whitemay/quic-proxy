@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/joho/godotenv" // 新增godotenv依赖导入
 	"github.com/quic-go/quic-go"
 )
 
@@ -17,6 +18,12 @@ const (
 )
 
 func main() {
+	// 加载.env文件环境变量
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("无法加载.env文件: %v\n", err)
+	}
+
 	// 从环境变量中获取证书文件地址
 	certFile := os.Getenv("QUIC_CERT_FILE")
 	keyFile := os.Getenv("QUIC_KEY_FILE")
