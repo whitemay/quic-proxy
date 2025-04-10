@@ -76,7 +76,7 @@ func main() {
 	}
 	defer listener.Close()
 
-	fmt.Printf("正在监听QUIC连接 %s\n", quicAddr)
+	log.Printf("正在监听QUIC连接 %s\n", quicAddr)
 
 	// 接受QUIC会话并处理
 	for {
