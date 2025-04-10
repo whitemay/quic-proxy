@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o quic-proxy .
 FROM alpine:latest
 
 # 设置工作目录
-WORKDIR /root/
+WORKDIR /app/
 
 # 从构建阶段复制可执行文件
 COPY --from=builder /app/quic-proxy .

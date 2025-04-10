@@ -21,7 +21,9 @@ func main() {
 	// 加载.env文件环境变量
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatalf("无法加载.env文件: %v\n", err)
+		log.Printf("无法加载.env文件: %v\n", err)
+	} else {
+		log.Println("成功加载.env文件")
 	}
 
 	// 从环境变量中获取证书文件地址
@@ -29,6 +31,8 @@ func main() {
 	keyFile := os.Getenv("QUIC_KEY_FILE")
 	if certFile == "" || keyFile == "" {
 		log.Fatalf("QUIC_CERT_FILE 和 QUIC_KEY_FILE 环境变量必须设置\n")
+	} else {
+		log.Printf("加载证书文件: QUIC_CERT_FILE=%s, QUIC_KEY_FILE=%s\n", certFile, keyFile)
 	}
 
 	// 从环境变量中获取端口号，默认为5100
@@ -36,6 +40,9 @@ func main() {
 	port, err := strconv.Atoi(portStr)
 	if err != nil || port <= 0 {
 		port = 5100
+		log.Printf("未设置有效端口，使用默认端口: %d\n", port)
+	} else {
+		log.Printf("使用环境变量指定的端口: %d\n", port)
 	}
 
 	quicAddr := fmt.Sprintf(":%d", port)
@@ -45,6 +52,8 @@ func main() {
 	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
 	if err != nil {
 		log.Fatalf("加载X509密钥对时出错: %s\n", err)
+	} else {
+		log.Println("成功加载X509密钥对")
 	}
 
 	// 创建一个基本的TLS配置
@@ -62,6 +71,8 @@ func main() {
 	listener, err := quic.ListenAddr(quicAddr, tlsConfig, quicConfig)
 	if err != nil {
 		log.Fatalf("创建QUIC监听器时出错: %s\n", err)
+	} else {
+		log.Printf("成功创建QUIC监听器，监听地址: %s\n", quicAddr)
 	}
 	defer listener.Close()
 
@@ -74,6 +85,7 @@ func main() {
 			log.Printf("接受QUIC会话时出错: %s\n", err)
 			continue
 		}
+		log.Printf("接受新的QUIC会话来自: %s\n", connection.RemoteAddr())
 		go handleQUICSession(connection, tcpAddrWithPort)
 	}
 }
