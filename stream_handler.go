@@ -30,6 +30,7 @@ func handleStream(stream io.ReadWriteCloser, tcpAddr string) {
 	done := make(chan struct{}, 2)
 
 	// 将流的数据转发到 TCP 连接
+	// 使用独立 Goroutine 处理此方向的数据流
 	go func() {
 		defer func() {
 			log.Printf("完成从流到 TCP 的数据转发\n")
@@ -46,6 +47,7 @@ func handleStream(stream io.ReadWriteCloser, tcpAddr string) {
 	}()
 
 	// 将 TCP 连接的数据转发到流
+	// 使用独立 Goroutine 处理此方向的数据流
 	go func() {
 		defer func() {
 			log.Printf("完成从 TCP 到流的数据转发\n")
@@ -62,6 +64,7 @@ func handleStream(stream io.ReadWriteCloser, tcpAddr string) {
 	}()
 
 	// 等待两个方向的转发完成
+	// 确保资源被正确释放
 	<-done
 	<-done
 }
