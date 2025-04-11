@@ -60,6 +60,7 @@ func main() {
 	tlsConfig := &tls.Config{
 		Certificates: []tls.Certificate{cert},
 		NextProtos:   []string{"h3"}, // 同时支持HTTP/3和QUIC
+		MinVersion:   tls.VersionTLS13,
 	}
 
 	// 创建QUIC监听器配置

@@ -10,10 +10,10 @@ import (
 // handleQUICSession 处理 QUIC 会话，将 QUIC 流的数据转发到 TCP 连接
 func handleQUICSession(connection quic.Connection, tcpAddr string) {
 	log.Printf("新的 QUIC 会话来自 %s\n", connection.RemoteAddr())
-	defer func() {
-		log.Printf("关闭 QUIC 会话来自 %s\n", connection.RemoteAddr())
-		connection.CloseWithError(0x42, "I don't want to talk to you anymore 🙉")
-	}()
+	// defer func() {
+	// 	log.Printf("关闭 QUIC 会话来自 %s\n", connection.RemoteAddr())
+	// 	connection.CloseWithError(0x42, "I don't want to talk to you anymore 🙉")
+	// }()
 
 	for {
 		// 接受 QUIC 会话中的流
