@@ -1,0 +1,25 @@
+[package]
+name = "quic-proxy"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "quic-proxy"
+path = "src/main.rs"
+
+[dependencies]
+gm-quic = "0.2.2"
+qevent = "0.2.2"
+rustls = { version = "0.23", default-features = false, features = ["std", "ring"] }
+rustls-native-certs = { version="0.8" }
+tokio = "1.45"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "time"] }
+
+[dev-dependencies]
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1.45", features = ["fs", "io-std"] }
+# tracing-subscriber = { version = "0.3", features = ["env-filter", "time"] }
+
+[profile.bench]
+debug = true

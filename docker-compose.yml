@@ -1,6 +1,0 @@
-services:
-  caddy:
-    image: hub.coolman.me/lexiflow/caddy
-    container_name: caddy
-    volumes:
-      - ./certs:/etc:ro
