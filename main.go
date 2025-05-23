@@ -65,7 +65,8 @@ func main() {
 
 	// 创建QUIC监听器配置
 	quicConfig := &quic.Config{
-		MaxIdleTimeout: 30 * time.Minute,
+		MaxIdleTimeout:  30 * time.Minute,
+		KeepAlivePeriod: 30 * time.Second,
 	}
 
 	// 创建QUIC监听器
